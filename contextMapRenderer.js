@@ -10,7 +10,6 @@ import { calculateTextHeight, calculateTextWidth } from '../../utils.js';
 export const draw = async (text, id, version, diagObj) => {
   const conf = getConfig().contextMap;
 
-
   log.debug('things', conf.font);
   log.debug('Rendering cml\n' + text, diagObj.parser);
 
@@ -26,34 +25,33 @@ export const draw = async (text, id, version, diagObj) => {
       : d3.select('body');
   // Parse the graph definition
 
-  var svg = root.select('#' + id)
+  var svg = root.select('#' + id);
 
-  const graph = db.getGraph()
+  const graph = db.getGraph();
 
-  const nodes = graph.nodes.map(node => ({ id: node.id, name: node.id }))
-  const links = graph.edges
-    .map(edge => {
-      return mapEdgeLabels(edge)
-    })
+  const nodes = graph.nodes.map((node) => ({ id: node.id, name: node.id }));
+  const links = graph.edges.map((edge) => {
+    return mapEdgeLabels(edge);
+  });
 
-  	const width = conf.width
-  	const height = conf.height
-    const fontConfig = conf.font 
-  	const config = new Configuration(
-  		height,
-  		width,
-  		fontConfig,
-  		 (text) => calculateTextWidth(text, fontConfig),
-  		 (text) => calculateTextHeight(text, fontConfig),
-  		{ rx: conf.nodePadding.horizontal, ry: conf.nodePadding.vertical },
-  		{ horizontal: conf.nodeMargin.horizontal, vertical: conf.nodeMargin.vertical }
-  	)
+  const width = conf.width;
+  const height = conf.height;
+  const fontConfig = conf.font;
+  const config = new Configuration(
+    height,
+    width,
+    fontConfig,
+    (text) => calculateTextWidth(text, fontConfig),
+    (text) => calculateTextHeight(text, fontConfig),
+    { rx: conf.nodePadding.horizontal, ry: conf.nodePadding.vertical },
+    { horizontal: conf.nodeMargin.horizontal, vertical: conf.nodeMargin.vertical }
+  );
 
-    buildGraph(svg, { nodes, links }, config)
+  buildGraph(svg, { nodes, links }, config);
 
-    configureSvgSize(svg, width, height, true);
-  };
+  configureSvgSize(svg, width, height, true);
+};
 
-  export default {
-    draw,
-  };
+export default {
+  draw,
+};
