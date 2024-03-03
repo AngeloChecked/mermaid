@@ -1,5 +1,7 @@
+// @ts-ignore: JISON doesn't support types
 import parser from './contextMap.jison';
-import contextMapDb from '../contextMapDb.js';
+import contextMapDb from '../contextMapDb.ts';
+import { describe, it, beforeEach, expect } from 'vitest';
 
 describe('check context map syntax', function () {
   beforeEach(() => {

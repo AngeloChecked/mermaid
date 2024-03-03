@@ -315,7 +315,7 @@ export class ContextMapNode {
 
     const perRowTotalWidth: number[] = [];
     const perRowTotalHeight: number[] = [];
-    let totalHeight: number = 0;
+    let totalHeight = 0;
 
     let counter = 0;
     let row = 0;
