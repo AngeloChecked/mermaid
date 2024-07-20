@@ -155,6 +155,7 @@ export interface MermaidConfig {
   xyChart?: XYChartConfig;
   requirement?: RequirementDiagramConfig;
   mindmap?: MindmapDiagramConfig;
+  contextMap?: ContextMapLanguageDiagramConfig;
   gitGraph?: GitGraphDiagramConfig;
   c4?: C4DiagramConfig;
   sankey?: SankeyDiagramConfig;
@@ -971,6 +972,41 @@ export interface RequirementDiagramConfig extends BaseDiagramConfig {
 export interface MindmapDiagramConfig extends BaseDiagramConfig {
   padding?: number;
   maxNodeWidth?: number;
+}
+/**
+ * The object containing configurations specific for context map language diagrams
+ *
+ * This interface was referenced by `MermaidConfig`'s JSON-Schema
+ * via the `definition` "ContextMapLanguageDiagramConfig".
+ */
+export interface ContextMapLanguageDiagramConfig extends BaseDiagramConfig {
+  width?: number;
+  height?: number;
+  nodeMargin?: ContextMapNodeMargin;
+  nodePadding?: ContextMapNodePadding;
+  font?: ContextMapFont;
+}
+/**
+ * margins of nodes
+ */
+export interface ContextMapNodeMargin {
+  horizontal?: number;
+  vertical?: number;
+}
+/**
+ * padding of nodes
+ */
+export interface ContextMapNodePadding {
+  horizontal?: number;
+  vertical?: number;
+}
+/**
+ * Font of all Context Map texts
+ */
+export interface ContextMapFont {
+  fontFamily?: string;
+  fontSize?: number;
+  fontWeight?: number;
 }
 /**
  * This interface was referenced by `MermaidConfig`'s JSON-Schema

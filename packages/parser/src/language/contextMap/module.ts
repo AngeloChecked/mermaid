@@ -12,33 +12,36 @@ import {
   inject,
 } from 'langium';
 
-import { PieValueConverter } from './valueConverter.js';
-import { MermaidGeneratedSharedModule, PieGeneratedModule } from '../generated/module.js';
-import { PieTokenBuilder } from './tokenBuilder.js';
+import { CommonValueConverter } from '../common/valueConverter.js';
+import { MermaidGeneratedSharedModule, ContextMapGeneratedModule } from '../generated/module.js';
+import { ContextMapTokenBuilder } from './tokenBuilder.js';
 
 /**
- * Declaration of `Pie` services.
+ * Declaration of `ContextMap` services.
  */
-interface PieAddedServices {
+interface ContextMapAddedServices {
   parser: {
-    TokenBuilder: PieTokenBuilder;
-    ValueConverter: PieValueConverter;
+    TokenBuilder: ContextMapTokenBuilder;
+    ValueConverter: CommonValueConverter;
   };
 }
 
 /**
- * Union of Langium default services and `Pie` services.
+ * Union of Langium default services and `ContextMap` services.
  */
-export type PieServices = LangiumCoreServices & PieAddedServices;
+export type ContextMapServices = LangiumCoreServices & ContextMapAddedServices;
 
 /**
  * Dependency injection module that overrides Langium default services and
- * contributes the declared `Pie` services.
+ * contributes the declared `ContextMap` services.
  */
-export const PieModule: Module<PieServices, PartialLangiumCoreServices & PieAddedServices> = {
+export const ContextMapModule: Module<
+  ContextMapServices,
+  PartialLangiumCoreServices & ContextMapAddedServices
+> = {
   parser: {
-    TokenBuilder: () => new PieTokenBuilder(),
-    ValueConverter: () => new PieValueConverter(),
+    TokenBuilder: () => new ContextMapTokenBuilder(),
+    ValueConverter: () => new CommonValueConverter(),
   },
 };
 
@@ -56,19 +59,21 @@ export const PieModule: Module<PieServices, PartialLangiumCoreServices & PieAdde
  * @param context - Optional module context with the LSP connection
  * @returns An object wrapping the shared services and the language-specific services
  */
-export function createPieServices(context: DefaultSharedCoreModuleContext = EmptyFileSystem): {
+export function createContextMapServices(
+  context: DefaultSharedCoreModuleContext = EmptyFileSystem
+): {
   shared: LangiumSharedCoreServices;
-  Pie: PieServices;
+  ContextMap: ContextMapServices;
 } {
   const shared: LangiumSharedCoreServices = inject(
     createDefaultSharedCoreModule(context),
     MermaidGeneratedSharedModule
   );
-  const Pie: PieServices = inject(
+  const ContextMap: ContextMapServices = inject(
     createDefaultCoreModule({ shared }),
-    PieGeneratedModule,
-    PieModule
+    ContextMapGeneratedModule,
+    ContextMapModule
   );
-  shared.ServiceRegistry.register(Pie);
-  return { shared, Pie };
+  shared.ServiceRegistry.register(ContextMap);
+  return { shared, ContextMap };
 }
